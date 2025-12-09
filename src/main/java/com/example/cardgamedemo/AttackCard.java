@@ -1,15 +1,11 @@
 package com.example.cardgamedemo;
 
-public class AttackCard {
-    private final String name;
-    private int damage;
+public class AttackCard extends Card {
+    private final int damage;
 
     public AttackCard(String name, int damage){
-        this.name = name;
+        super(name);
         this.damage = damage;
-    }
-    public String getName(){
-        return name;
     }
     public int getDamage(){
         return damage;
@@ -19,6 +15,6 @@ public class AttackCard {
     }
     @Override
     public String toString(){
-        return name+" ("+ damage + " dmg)";
+        return getName() +" ("+ damage + " dmg)";
     }
 }
