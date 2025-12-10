@@ -1,9 +1,11 @@
 package com.example.cardgamedemo;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -42,6 +44,8 @@ public class BattleController implements Initializable {
     private AttackCard twoDmgCard;
     private AttackCard enemyBasic;
     private AttackCard enemySpecial;
+    private Timeline enemyTurn;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         player = new Player("Chad Goodman",20);
@@ -63,16 +67,35 @@ public class BattleController implements Initializable {
         twoDmgCard.playerPlay(player,enemy);
         System.out.println(twoDmgCard.toString());
         updateEnemyHealthLabel();
+        attackButton.setDisable(true);
+        enemyTurn = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        actionEvent -> enemyName.setText(enemy.getName()+" is thinking...")),
+                new KeyFrame(Duration.seconds(2),
+                        new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        enemyName.setText(enemy.getName()+" attacks");
+                        enemyBasic.enemyPlay(enemy, player);
+                        updatePlayerHealthLabel();
+                        statusPost.setText("-"+enemy.getDamage());
+                    }
+                        }),
+                new KeyFrame(Duration.seconds(3),
+                        new EventHandler<ActionEvent>() {
+                    @Override
+                        public void handle(ActionEvent actionEvent) {
+                        statusPost.setText("");
+                        enemyName.setText(enemy.getName());
+                        attackButton.setDisable(false);
+                    }
+                        })
+        );
+        enemyTurn.play();
         //test code for battle
-        enemyName.setText(enemy.getName()+" is thinking...");
+        /*
 
-        enemyName.setText(enemy.getName()+" attacks");
-        enemyBasic.enemyPlay(enemy, player);
-        updatePlayerHealthLabel();
-        statusPost.setText("-"+enemy.getDamage());
-
-        enemyName.setText(enemy.getName());
-
+        */
 
         if(enemy.isDead()){
             defeatAnimation();
