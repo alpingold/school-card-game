@@ -1,0 +1,5 @@
+.gridpane{
+    -fx-background-image: url("mainBackground.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}

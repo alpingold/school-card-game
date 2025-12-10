@@ -1,5 +1,5 @@
 .gridpane{
-    -fx-background-image: url("background.png");
+    -fx-background-image: url("battleBackground.png");
 }
 #playerBox .label{
     -fx-text-fill: green;
