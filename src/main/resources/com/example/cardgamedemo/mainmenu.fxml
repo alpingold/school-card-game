@@ -35,7 +35,7 @@
                <HBox.margin>
                   <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Character Select">
+            <Button fx:id="characterSelect" mnemonicParsing="false" onAction="#pickCharacter" prefHeight="25.0" prefWidth="120.0" text="Character Select">
                <font>
                   <Font size="14.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Settings">
+            <Button fx:id="settings" mnemonicParsing="false" onAction="#changeSettings" prefHeight="25.0" prefWidth="120.0" text="Settings">
                <font>
                   <Font size="14.0" />
                </font>

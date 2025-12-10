@@ -17,4 +17,16 @@ public class MainMenuController {
         Main.switchScene("battle.fxml");
     }
 
+    @FXML
+    private Button characterSelect;
+
+    @FXML
+    void pickCharacter(ActionEvent event){Main.switchScene("characterSelect.fxml");}
+
+    @FXML
+    private Button settings;
+
+    @FXML
+    void changeSettings(ActionEvent event){Main.switchScene("settings.fxml");}
+
 }
