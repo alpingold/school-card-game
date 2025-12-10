@@ -5,11 +5,13 @@ public class Enemy {
     private final String name;
     private final int maxHealth;
     private int currentHealth;
+    private int damage;
 
-    public Enemy(String name, int maxHealth) {
+    public Enemy(String name, int maxHealth, int damage) {
         this.name = name;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
+        this.damage = 1;
     }
 
     public String getName() {
@@ -30,5 +32,9 @@ public class Enemy {
 
     public boolean isDead() {
         return currentHealth <= 0;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

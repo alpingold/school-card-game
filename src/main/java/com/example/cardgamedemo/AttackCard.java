@@ -10,8 +10,12 @@ public class AttackCard extends Card {
     public int getDamage(){
         return damage;
     }
-    public void play(Player player, Enemy enemy){
+    public void playerPlay(Player player, Enemy enemy){
+        //change this to refelct cards
         enemy.takeDamage(damage);
+    }
+    public void enemyPlay(Enemy enemy, Player player){
+        player.takeDamage(enemy.getDamage());
     }
     @Override
     public String toString(){

@@ -1,5 +1,6 @@
 package com.example.cardgamedemo;
 
+import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -9,18 +10,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+//implement a reset method
 public class BattleController implements Initializable {
     @FXML
     private Label playerHealth;
 
     @FXML
+    private HBox cardBox;
+    //to-do: group objects of same types
+    @FXML
+    private Label statusPost;
+    @FXML
+    private Label enemyName;
+    @FXML
     private Button attackButton;
-
+    @FXML
+    private Label playerName;
     @FXML
     private Label enemyHealth;
     @FXML
@@ -29,25 +40,46 @@ public class BattleController implements Initializable {
     private Player player;
     private Enemy enemy;
     private AttackCard twoDmgCard;
-
+    private AttackCard enemyBasic;
+    private AttackCard enemySpecial;
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        player = new Player("Default Goodman",20);
-        enemy = new Enemy("Ethan.exe",20);
-
+        player = new Player("Chad Goodman",20);
+        enemy = new Enemy("Ethan.exe",20,1);
+        //i should probably not make these cards
+        enemyBasic = new AttackCard("Bite", 2);
+        //initial cards should be added here but like IDK how that will function yet
+        ArrayList<Card> cards = new ArrayList<>();
         twoDmgCard = new AttackCard("Bash",2);
+        cards.add(twoDmgCard);
 
+        updatePlayerNameLabel();
+        updateEnemyNameLabel();
         updateEnemyHealthLabel();
         updatePlayerHealthLabel();
     }
     @FXML
-    void attackAction(ActionEvent event) {
-        twoDmgCard.play(player,enemy);
+    void attackAction(ActionEvent event) throws InterruptedException {
+        twoDmgCard.playerPlay(player,enemy);
+        System.out.println(twoDmgCard.toString());
         updateEnemyHealthLabel();
+        //test code for battle
+        enemyName.setText(enemy.getName()+" is thinking...");
+
+        enemyName.setText(enemy.getName()+" attacks");
+        enemyBasic.enemyPlay(enemy, player);
+        updatePlayerHealthLabel();
+        statusPost.setText("-"+enemy.getDamage());
+
+        enemyName.setText(enemy.getName());
+
 
         if(enemy.isDead()){
             defeatAnimation();
             attackButton.setDisable(true);
+            Button next = new Button("Continue");
+            next.setOnMouseClicked(e->{Main.switchScene("battle.fxml");});
+            cardBox.getChildren().add(next);
             enemyHealth.setText("Enemy HP: 0 You win!");
         }
     }
@@ -58,6 +90,8 @@ public class BattleController implements Initializable {
         rotate.setAutoReverse(false);
         rotate.play();
     }
+    public void updatePlayerNameLabel(){playerName.setText(player.getName());}
+    public void updateEnemyNameLabel(){enemyName.setText(enemy.getName());}
     private void updateEnemyHealthLabel(){
         enemyHealth.setText("Enemy HP: "+enemy.getCurrentHealth());
     }
