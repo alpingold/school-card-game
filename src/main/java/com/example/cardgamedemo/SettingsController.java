@@ -1,6 +1,12 @@
 package com.example.cardgamedemo;
 
 
-public class SettingsController {
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
+public class SettingsController {
+    @FXML
+    void backAction(ActionEvent event) {
+        Main.switchScene("mainmenu.fxml");
+    }
 }

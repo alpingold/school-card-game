@@ -68,35 +68,6 @@ public class BattleController implements Initializable {
         System.out.println(twoDmgCard.toString());
         updateEnemyHealthLabel();
         attackButton.setDisable(true);
-        enemyTurn = new Timeline(
-                new KeyFrame(Duration.seconds(0),
-                        actionEvent -> enemyName.setText(enemy.getName()+" is thinking...")),
-                new KeyFrame(Duration.seconds(2),
-                        new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        enemyName.setText(enemy.getName()+" attacks");
-                        enemyBasic.enemyPlay(enemy, player);
-                        updatePlayerHealthLabel();
-                        statusPost.setText("-"+enemy.getDamage());
-                    }
-                        }),
-                new KeyFrame(Duration.seconds(3),
-                        new EventHandler<ActionEvent>() {
-                    @Override
-                        public void handle(ActionEvent actionEvent) {
-                        statusPost.setText("");
-                        enemyName.setText(enemy.getName());
-                        attackButton.setDisable(false);
-                    }
-                        })
-        );
-        enemyTurn.play();
-        //test code for battle
-        /*
-
-        */
-
         if(enemy.isDead()){
             defeatAnimation();
             attackButton.setDisable(true);
@@ -105,6 +76,37 @@ public class BattleController implements Initializable {
             cardBox.getChildren().add(next);
             enemyHealth.setText("Enemy HP: 0 You win!");
         }
+        else {
+            enemyTurn = new Timeline(
+                    new KeyFrame(Duration.seconds(0),
+                            actionEvent -> enemyName.setText(enemy.getName() + " is thinking...")),
+                    new KeyFrame(Duration.seconds(2),
+                            new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent actionEvent) {
+                                    enemyName.setText(enemy.getName() + " attacks");
+                                    enemyBasic.enemyPlay(enemy, player);
+                                    updatePlayerHealthLabel();
+                                    statusPost.setText("-" + enemy.getDamage());
+                                }
+                            }),
+                    new KeyFrame(Duration.seconds(3),
+                            new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent actionEvent) {
+                                    statusPost.setText("");
+                                    enemyName.setText(enemy.getName());
+                                    attackButton.setDisable(false);
+                                }
+                            })
+            );
+            enemyTurn.play();
+        }
+        //test code for battle
+        /*
+
+        */
+
     }
     private void defeatAnimation(){
         RotateTransition rotate = new RotateTransition(Duration.millis(250), enemyPicture);
