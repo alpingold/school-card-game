@@ -1,0 +1,9 @@
+.gridpane{
+    -fx-background-image: url("background.png");
+}
+#playerBox .label{
+    -fx-text-fill: green;
+}
+#enemyBox .label{
+    -fx-text-fill: crimson;
+}
