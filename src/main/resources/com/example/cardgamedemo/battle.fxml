@@ -3,12 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -58,14 +60,16 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="playerHealth" text="HP number here">
-               <font>
-                  <Font size="33.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-            </Label>
+            <StackPane prefHeight="64.0" prefWidth="960.0">
+               <children>
+                  <ProgressBar fx:id="playerHealthBar" prefHeight="36.0" prefWidth="308.0" progress="0.0" />
+                  <Label fx:id="playerHealthLabel" text="healt here">
+                     <font>
+                        <Font size="29.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
          </children>
       </VBox>
       <VBox id="enemyBox" alignment="BOTTOM_CENTER" GridPane.columnIndex="1">

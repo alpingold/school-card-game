@@ -1,7 +1,6 @@
 package com.example.cardgamedemo;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -10,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.ColorAdjust;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -25,7 +24,9 @@ import java.util.Stack;
 //implement a reset method
 public class BattleController implements Initializable {
     @FXML
-    private Label playerHealth;
+    private Label playerHealthLabel;
+    @FXML
+    private ProgressBar playerHealthBar;
     @FXML
     private HBox cardBox,underBox;
     //to-do: group objects of same types
@@ -153,6 +154,11 @@ public class BattleController implements Initializable {
 
         }
     }
-    private void updatePlayerHealthLabel(){playerHealth.setText("Your HP: "+player.getCurrentHealth());}
+    private void updatePlayerHealthLabel(){
+        int current = player.getCurrentHealth();
+        int max = player.getMaxHealth();
+        double progress = (double) current/max;
+        playerHealthBar.setProgress(progress);
+        playerHealthLabel.setText(current+"/"+max);}
 
 }
