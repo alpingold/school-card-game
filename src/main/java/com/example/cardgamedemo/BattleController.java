@@ -52,7 +52,7 @@ public class BattleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        player = new Player("Chad Goodman",20);
+        player = new Player("Chad Goodman",20,"Mr_goodman.png");
         enemyStack =  new Stack<>();
         Enemy ethanEnemy = new Enemy("Ethan.exe","ethanexe.png",10,1);
         Enemy alekseiEnemy = new Enemy("Aleksei(?)","alekseiSpider.png",6,3);

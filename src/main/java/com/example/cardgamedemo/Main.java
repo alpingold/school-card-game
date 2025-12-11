@@ -18,8 +18,7 @@ public class Main extends Application {
         mainStage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("mainmenu.fxml"));
         Scene scene = new Scene(root);
-        stage.setMinHeight(1024);
-        stage.setMinWidth(1024);
+        stage.setFullScreen(true);
         stage.setResizable(false);
         stage.setTitle("Ethan's Card Game");
         stage.setScene(scene);

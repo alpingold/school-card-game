@@ -1,8 +1,26 @@
+.gridpane .button {
+    -fx-font-family: "sans-serif";
+    -fx-font-size: 44px;
+
+    /* Lock a consistent visual shape */
+    -fx-padding: 10 40;
+    -fx-background-insets: 0;
+    -fx-background-radius: 12;
+
+    /* Base colors */
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+}
+
+/* Hover: only change color, not geometry */
+.gridpane .button:hover {
+    -fx-background-color: #555555;
+    -fx-background-insets: 0;
+    -fx-background-radius: 12;
+}
+
 .gridpane{
     -fx-background-image: url("mainBackground.png");
     -fx-background-size: cover;
     -fx-background-position: center center;
-}
-.gridpane .button{
-    -fx-font-family: "sans-serif";
 }

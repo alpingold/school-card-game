@@ -7,10 +7,12 @@ public class Player {
     private final String name;
     private final int maxHealth;
     private int currentHealth;
+    private final String playerPic;
 
     private final List<AttackCard> deck = new ArrayList<>();
 
-    public Player(String name, int maxHealth){
+    public Player(String name, int maxHealth, String playerPic){
+        this.playerPic = playerPic;
         this.name = name;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
