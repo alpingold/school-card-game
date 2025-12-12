@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-//implement a reset method
+//note to self: ALEKSEI WTF!!! THIS IS A DISGUSTING MESS OF A CONTROLLER
 public class BattleController implements Initializable {
     @FXML
     private Label playerHealthLabel;
@@ -50,6 +50,9 @@ public class BattleController implements Initializable {
     private AttackCard enemySpecial;
     private Timeline enemyTurn;
     private Stack<Enemy> enemyStack;
+    private ArrayList<Card> drawPile;
+    private ArrayList<Card> discordPile;
+    private ArrayList<Card> hand;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -58,17 +61,28 @@ public class BattleController implements Initializable {
         Enemy ethanEnemy = new Enemy("Ethan.exe","ethanexe.png",10,1);
         Enemy alekseiEnemy = new Enemy("Aleksei(?)","alekseiSpider.png",6,3);
         Enemy nickMageEnemy = new Enemy("Nick, The Bitter","nick_mage.png",8,2);
+
         enemyStack.add(ethanEnemy);
         enemyStack.add(alekseiEnemy);
         enemyStack.add(nickMageEnemy);
         Collections.shuffle(enemyStack);
         enemy = enemyStack.pop();
+        //card system beta
+        drawPile = new ArrayList<>();
+        discordPile = new ArrayList<>();
+        hand = new ArrayList<>();
+        //add a shit ton of filler cards for now. im not creative enough to make more rn
+        drawPile.add(new AttackCard("Bash","smash ur skull into enemy",1,1));
+        drawPile.add(new AttackCard("Kreation Punch","recall taekwando basics",1,2));
+        drawPile.add(new AttackCard("Pencil Sword","stab with the unsharpened pencil", 2,1));
+        drawPile.add(new AttackCard("Kick of Nick D.","imitate the legendary kick",2,5));
+
+        Collections.shuffle(drawPile);
+
+        drawCards(3);
+        refreshHandUI();
         //i should probably not make these cards
-        enemyBasic = new AttackCard("Bite", 2);
-        //initial cards should be added here but like IDK how that will function yet
-        ArrayList<Card> cards = new ArrayList<>();
-        twoDmgCard = new AttackCard("Bash",2);
-        cards.add(twoDmgCard);
+        enemyBasic = new AttackCard("Bite","sink teeth in",2, 2);
 
         updateEnemyPicture();
         updatePlayerNameLabel();
@@ -77,12 +91,27 @@ public class BattleController implements Initializable {
         updatePlayerHealthLabel();
     }
 
-    @FXML
-    void attackAction(ActionEvent event) throws InterruptedException {
-        twoDmgCard.playerPlay(player,enemy);
-        System.out.println(twoDmgCard.toString());
+    //card logic
+    private void drawCards(int amount){
+        for(int i=0;i<amount;i++){
+            if(drawPile.isEmpty()){
+                if(discordPile.isEmpty()){
+                    break;
+                }
+                drawPile.addAll(discordPile);
+                discordPile.clear();
+                Collections.shuffle(drawPile);
+            }
+            Card takenCard = drawPile.removeLast();
+            hand.add(takenCard);
+        }
+    }
+    private void playCard(Card card){
+        card.play(player,enemy);
+        hand.remove(card);
+        discordPile.add(card);
         updateEnemyHealthLabel();
-        attackButton.setDisable(true);
+        //updatePlayerHealthLabel();
         if(enemy.isDead()){
             defeatAnimation();
             attackButton.setDisable(true);
@@ -92,8 +121,26 @@ public class BattleController implements Initializable {
             underBox.getChildren().add(next);
             enemyHealth.setText("Enemy HP: 0 You win!");
         }
-        else {
-            enemyTurn = new Timeline(
+        else{
+            handleEnemyTurn();
+        }
+        refreshHandUI();
+    }
+    public void refreshHandUI(){
+        cardBox.getChildren().clear();
+        for(Card card : hand){
+            Button cardButton = new Button();
+            //center properly with a property THIS IS JUST TEST CODE
+            cardButton.setText(card.getName()+"\n"+card.getDescription());
+            cardButton.setWrapText(true);
+            cardButton.setPrefWidth(150);
+            cardButton.setPrefHeight(200);
+            cardButton.setOnAction(e ->playCard(card));
+            cardBox.getChildren().add(cardButton);
+        }
+    }
+    public void handleEnemyTurn(){
+        enemyTurn = new Timeline(
                     new KeyFrame(Duration.seconds(0),
                             actionEvent -> enemyName.setText(enemy.getName() + " is thinking...")),
                     new KeyFrame(Duration.seconds(1),
@@ -101,7 +148,7 @@ public class BattleController implements Initializable {
                                 @Override
                                 public void handle(ActionEvent actionEvent) {
                                     enemyName.setText(enemy.getName() + " attacks");
-                                    enemyBasic.enemyPlay(enemy, player);
+                                    enemyBasic.play(enemy, player);
                                     updatePlayerHealthLabel();
                                     statusPost.setText("-" + enemy.getDamage());
                                 }
@@ -117,8 +164,8 @@ public class BattleController implements Initializable {
                             })
             );
             enemyTurn.play();
-        }
     }
+
     private void defeatAnimation(){
         RotateTransition rotate = new RotateTransition(Duration.millis(250), enemyPicture);
         rotate.setByAngle(15);

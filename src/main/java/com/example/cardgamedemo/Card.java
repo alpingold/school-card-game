@@ -2,23 +2,24 @@ package com.example.cardgamedemo;
 
 import javafx.scene.image.Image;
 
-public class Card {
+public abstract class Card {
     private final String name;
-    //private final int width;
-    //private final int height;
-    //private final Image image;
-//    public Card(String name, int width, int height) {
-//        this.name = name;
-//        this.width = width;
-//        this.height = height;
-//    }
+    private final String description;
+    private final int energyCost;
 
-
-
-    public Card(String name){
+    public Card(String name, String description, int energyCost) {
         this.name = name;
+        this.description = description;
+        this.energyCost = energyCost;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
+    public String getDescription() {
+        return description;
+    }
+    public int getEnergyCost() { return energyCost; }
+
+    public abstract void play(Player player, Enemy enemy);
 }

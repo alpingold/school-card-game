@@ -3,19 +3,20 @@ package com.example.cardgamedemo;
 public class AttackCard extends Card {
     private final int damage;
 
-    public AttackCard(String name, int damage){
-        super(name);
+    public AttackCard(String name, String description, int energyCost, int damage) {
+        super(name, description, energyCost);
         this.damage = damage;
     }
     public int getDamage(){
         return damage;
     }
-    public void playerPlay(Player player, Enemy enemy){
-        //change this to refelct cards
+    //somehow integrate status effects. probably separate card classes
+    @Override
+    public void play(Player player, Enemy enemy){
         enemy.takeDamage(damage);
     }
-    public void enemyPlay(Enemy enemy, Player player){
-        player.takeDamage(enemy.getDamage());
+    public void play(Enemy enemy, Player player){
+        player.takeDamage(damage);
     }
     @Override
     public String toString(){
